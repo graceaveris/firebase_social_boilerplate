@@ -12,12 +12,11 @@
             <h3>Your Details</h3>
             <p>name: {{userProfile.name}}</p>
             <p>email: {{userProfile.email}}</p>
-            <p>friends: {{userProfile.friends}}</p>
+            <p>email: {{currentUser.uid}}</p>
         </div>
         <div class="has-p-1">
             <div>
-                <h3>Your Friends</h3>
-                <p>friendsnames</p>
+                <FriendsList />
             </div>
         </div>
         
@@ -32,9 +31,10 @@
 
 import { mapState } from 'vuex'
 import AddFriend from '@/components/Dashboard/AddFriend/AddFriend'
+import FriendsList from '@/components/Dashboard/FriendsList/FriendsList'
 import FriendRequests from '@/components/Dashboard/FriendRequests/FriendRequests'
 export default {
-    components: { AddFriend, FriendRequests },
+    components: { AddFriend, FriendRequests, FriendsList },
     data() {
         return {
             findFriendForm: {

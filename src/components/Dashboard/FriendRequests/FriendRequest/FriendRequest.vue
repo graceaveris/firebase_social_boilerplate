@@ -23,11 +23,11 @@ export default {
     methods: {
         acceptFriend() {
         console.log('test', this.request)
-        //this will be saved to the current user object
-        fb.db.ref(`/users/${this.currentUser.uid}/friends/`).set({ [this.request.senderUID]: true })
+        //this will be saved to the current user/friend object
+        fb.db.ref(`/users/${this.currentUser.uid}/friends/${this.request.senderUID}`).set( true )
         .then(
-        //this will be saved to the senders user object
-        fb.db.ref(`/users/${this.request.senderUID}/friends/`).set({ [this.currentUser.uid]: true })
+        //this will be saved to the senders user/friend object
+        fb.db.ref(`/users/${this.request.senderUID}/friends/${this.currentUser.uid}`).set( true )
         //then we delete the request
         .then(
         fb.db.ref(`/requests/${this.request.requestUID}`).remove()
