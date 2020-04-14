@@ -51,11 +51,9 @@ export const store = new Vuex.Store({
     },
 
     updateProfile({ state }, data) {
-      //here is where we need the snapshot to listen for update isn the db!
       let name = data.name
       let email = data.email
       fb.db.ref(`/users/${state.currentUser.uid}`).update({ name, email }).then(user => {
-        // commit('setUserProfile', { name, email })
         console.log('user:', user)
       }).catch(err => {
           console.log(err)

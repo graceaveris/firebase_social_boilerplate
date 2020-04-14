@@ -8,11 +8,11 @@
     </div>
 
     <div class="col2 has-p-1">
-        <div cladd="has-p-1">
+        <div class="has-p-1">
             <h3>Your Details</h3>
             <p>name: {{userProfile.name}}</p>
             <p>email: {{userProfile.email}}</p>
-            <p>allData: {{currentUser.uid}}</p>
+            <p>friends: {{userProfile.friends}}</p>
         </div>
         <div class="has-p-1">
             <div>
