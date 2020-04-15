@@ -20,6 +20,7 @@
 
 <script>
 import { mapState } from 'vuex'
+const fb = require('../firebaseConfig.js')
 
 export default {
     data() {
@@ -29,22 +30,28 @@ export default {
         }
     },
     computed: {
-        ...mapState(['userProfile'])
+        ...mapState(['userProfile', 'friends', 'currentUser'])
     },
     methods: {
         updateProfile() {
             this.$store.dispatch('updateProfile', {
                 name: this.name !== '' ? this.name : this.userProfile.name,
                 email: this.userProfile.email,
-            })
-
+            })//then we need to  update the new name in all all of your friends
+            this.updateFriendProfiles()
             this.name = ''
-
             this.showSuccess = true
 
             setTimeout(() => {
                 this.showSuccess = false
             }, 2000)
+        },
+
+        updateFriendProfiles() {
+            let friendUIDS = Object.keys(this.friends)
+            friendUIDS.forEach(uid => {
+                fb.db.ref(`/friends/${uid}/${this.currentUser.uid}`).update({ name: this.name })
+            })
         }
     }
 }
