@@ -12,10 +12,14 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 const fb = require('../../../firebaseConfig.js')
 export default {
     name: 'AddFriend',
+    props: {
+        userProfile: null,
+        currentUser: null,
+        friendRequests: null,
+    },
     data() {
         return {
             findFriendForm: {
@@ -23,9 +27,6 @@ export default {
                 message: '',
             }
         }
-    },
-    computed: {
-        ...mapState(['userProfile', 'currentUser', 'friendRequests' ]),
     },
     methods: {
         isExistingFriend(uid) {

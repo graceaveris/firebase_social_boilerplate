@@ -9,6 +9,7 @@ fb.auth.onAuthStateChanged(user => {
   if (user) {
       store.commit('setCurrentUser', user)
       store.dispatch('fetchUserProfile')
+      store.dispatch('fetchFriends', user.uid)
       store.dispatch('fetchFriendRequests', user.uid )
       // REALTIME //keep an eye on database for changes in your name
       const dbObjectRef = fb.db.ref().child(`/users/${user.uid}`)
@@ -20,7 +21,8 @@ export const store = new Vuex.Store({
   state: {
     currentUser: null,
     userProfile: {},
-    friendRequests: {}
+    friendRequests: {},
+    friends: {},
   },
   mutations: {
       setCurrentUser(state, val) {
@@ -32,6 +34,9 @@ export const store = new Vuex.Store({
     setFriendRequests(state, val) {
       state.friendRequests = val
     },
+    setFriends(state, val) {
+      state.friends = val
+    },
   },
 
   actions: {
@@ -39,9 +44,9 @@ export const store = new Vuex.Store({
     clearData({ commit }) {
       commit('setCurrentUser', null)
       commit('setUserProfile', {})
-
   },
     // we use 'once' to fetch simple data thats not going to change
+    //ORIGINAL
     fetchUserProfile({ commit, state }) {
       fb.db.ref(`/users/${state.currentUser.uid}`).once('value').then(res => {
           commit('setUserProfile', res.val())
@@ -49,6 +54,14 @@ export const store = new Vuex.Store({
         console.log(err)
       })
     },
+    //ORIGINAL
+
+    //NEW
+    // fetchUserProfile({ commit, state }) {
+    //   const dbObjectRef = fb.db.ref(`/users/${state.currentUser.uid}`)
+    //   dbObjectRef.on('value', snap => commit('setUserProfile', snap.val()))
+    // },
+    //NEW
 
     updateProfile({ state }, data) {
       let name = data.name
@@ -60,18 +73,22 @@ export const store = new Vuex.Store({
       })
     },
 
-
     fetchFriendRequests({ commit }, data) {
       // REALTIME // get friend requests where the ID beongs to the current user
       let requestsRef = fb.db.ref('requests');
         requestsRef.orderByChild('recieverUID').equalTo(data).on('value', snap => {
           commit('setFriendRequests', snap.val())
         })
-    }
-  },
+    },
 
-  // const dbObjectRef = fb.db.ref().child(`/users/${user.uid}`)
-  //     dbObjectRef.on('value', snap => store.commit('setUserProfile', snap.val()))
+    fetchFriends({ commit }, uid) {
+      // REALTIME // get teh friends object for the current user
+      let friendsRef = fb.db.ref(`friends/${uid}`);
+        friendsRef.on('value', snap => {
+          commit('setFriends', snap.val())
+        })
+    },
+  },
 
   modules: {
   }

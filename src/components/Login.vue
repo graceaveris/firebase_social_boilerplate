@@ -119,7 +119,7 @@
                 fb.auth.signInWithEmailAndPassword(this.loginForm.email, this.loginForm.password).then(user => {
                     //mght be just single user
                     this.$store.commit('setCurrentUser', user.user)
-
+                    this.$store.dispatch('setFriends')
                     this.$store.dispatch('fetchUserProfile')
                     this.performingRequest = false
                     this.$router.push('/dashboard')

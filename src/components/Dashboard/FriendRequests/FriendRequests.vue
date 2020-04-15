@@ -9,20 +9,18 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import FriendRequest from '@/components/Dashboard/FriendRequests/FriendRequest/FriendRequest'
 export default {
     name: 'FriendRequests',
     components: { FriendRequest },
+    props: {
+        friendRequests: null,
+    },
     computed: {
-        ...mapState(['userProfile', 'currentUser', 'friendRequests' ]),
-
         getRequests() {
             return JSON.parse(JSON.stringify(this.friendRequests));
         },
     },
 
-    methods: { 
-  }
 }
 </script>

@@ -2,22 +2,21 @@
 <template>
 <div class="has-p-1">
     <h3>Your Friends</h3>
-    {{getFriends}}
+    <div v-for="friend in friends" :key="friend.name">
+        <Friend :friend="friend" />
+    </div>
 </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import Friend from '@/components/Dashboard/FriendsList/Friend/Friend'
 export default {
-    name: 'FriendList',
-    computed: {
-        ...mapState(['userProfile', 'currentUser']),
-
-        getFriends() {
-            return this.userProfile.friends
-        },
+    name: 'FriendsList',
+    components: { Friend },
+    props: {
+        friends: null,
     },
-    methods: { 
-  }
 }
 </script>
+
+

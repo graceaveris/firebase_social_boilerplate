@@ -22,20 +22,30 @@ export default {
 
     methods: {
         acceptFriend() {
-        console.log('test', this.request)
-        //this will be saved to the current user/friend object
-        fb.db.ref(`/users/${this.currentUser.uid}/friends/${this.request.senderUID}`).set( true )
-        .then(
-        //this will be saved to the senders user/friend object
+        //this will be saved to both the current user object AND the friend object
+        //to friends object
+        fb.db.ref(`/friends/${this.currentUser.uid}/${this.request.senderUID}`).set({ name: this.request.senderName, testfield: 'testfield'  })
+        .then( //save id to the user object
+        fb.db.ref(`/users/${this.currentUser.uid}/friends/${this.request.senderUID}`).set( true ))
+       
+       .then(//this will be saved to both the senders user AND the friend object
+        //to friends object
+        fb.db.ref(`/friends/${this.request.senderUID}/${this.currentUser.uid}`).set({ name: this.request.recieverName, testfield: 'testfield' }) )
+        .then(   //save id to the user object
         fb.db.ref(`/users/${this.request.senderUID}/friends/${this.currentUser.uid}`).set( true )
+        )
+
         //then we delete the request
         .then(
         fb.db.ref(`/requests/${this.request.requestUID}`).remove()
         )
-        //if either doesnt work we catch the rror
+
+        //if something doesnt work we catch the error
         .catch(err => {
           console.log('fail:', err)
-        }))
+        })
+
+    
      }  
   }
 }

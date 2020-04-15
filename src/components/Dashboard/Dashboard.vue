@@ -12,16 +12,14 @@
             <h3>Your Details</h3>
             <p>name: {{userProfile.name}}</p>
             <p>email: {{userProfile.email}}</p>
-            <p>email: {{currentUser.uid}}</p>
         </div>
         <div class="has-p-1">
-            <div>
-                <FriendsList />
-            </div>
+            <FriendsList :friends="this.friends"/>
         </div>
         
-        <AddFriend />
-        <FriendRequests />
+        <AddFriend :userProfile="this.userProfile" :currentUser="this.currentUser" :friendRequests="this.friendRequests"/>
+        
+        <FriendRequests :friendRequests="this.friendRequests" />
     </div>
 
   </section>
@@ -44,7 +42,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['userProfile', 'currentUser', 'friendRequests' ])
+        ...mapState(['userProfile', 'currentUser', 'friendRequests', 'friends' ])
     },
 }
 </script>
