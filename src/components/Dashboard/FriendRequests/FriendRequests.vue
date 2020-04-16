@@ -1,7 +1,7 @@
   
 <template>
 <div class="has-p-1">
-    <h3>Friend Requests</h3>
+    <h4>Friend Requests</h4>
     <div v-for="request in getRequests" :key="request.uid">
         <FriendRequest :request="request" />
     </div>
@@ -21,6 +21,5 @@ export default {
             return JSON.parse(JSON.stringify(this.friendRequests));
         },
     },
-
 }
 </script>

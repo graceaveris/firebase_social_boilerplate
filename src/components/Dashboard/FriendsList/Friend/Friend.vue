@@ -1,6 +1,6 @@
   
 <template>
-<div class="has-p-1">
+<div>
     <div>
        {{friend.name}}
     </div>

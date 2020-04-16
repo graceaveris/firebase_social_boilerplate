@@ -1,9 +1,9 @@
   
 <template>
 <div class="has-p-1">
-    <h3>Your Friends</h3>
+    <h4>Your Friends</h4>
     <div v-for="friend in friends" :key="friend.name">
-        <Friend :friend="friend" />
+        <Friend :friend="friend" class="has-pb-slight"/>
     </div>
 </div>
 </template>

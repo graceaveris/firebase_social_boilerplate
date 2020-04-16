@@ -43,22 +43,27 @@ p {
 
 h1 {
 	font-size: 2rem;
+	padding-bottom: 10px;
 }
 
 h2 {
 	font-size: 1.8rem;
+	padding-bottom: 14px;
 }
 
 h3 {
 	font-size: 1.6rem;
+	padding-bottom: 12px;
 }
 
 h4 {
 	font-size: 1.4rem;
+	padding-bottom: 10px;
 }
 
 h5 {
 	font-size: 1.2rem;
+	padding-bottom: 6px;
 }
 
 p {
@@ -150,7 +155,11 @@ section {
         &:hover {
             background: $primary;
         }
-    }
+	}
+	&_sml {
+		padding: 0.4rem;
+		min-width: 100px;
+	}
 }
 
 .text-center {
@@ -175,8 +184,8 @@ form {
 	text-align: left;
 	label {
 		display: block;
-		font-size: 16px;
-		margin-bottom: 0.5rem;
+		font-size: 12px;
+		margin-bottom: 0.4rem;
 	}
 
 	input {
@@ -220,4 +229,8 @@ form {
 
 .has-p-1 {
 	padding: 10px;
+}
+
+.has-pb-slight {
+	padding-bottom: 8px;
 }

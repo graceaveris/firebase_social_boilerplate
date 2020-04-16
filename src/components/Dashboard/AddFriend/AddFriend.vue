@@ -1,12 +1,15 @@
   
 <template>
 <div class="has-p-1">
-    <h3>Add Friend</h3>
+    <h4>Add Friend</h4>
         <form @submit.prevent>
             <label for="friendemail">Find by email</label>
             <input v-model.trim="findFriendForm.email" type="text" placeholder="yourfriend@email.com" id="friendemail" />
-            <button @click="requestFriend" class="button">Search</button>
+            <button @click="requestFriend" class="button button_sml">Search</button>
         </form>
+        <transition name="fade">
+            <p v-if="showMessage" v-html="this.message" class="message" :class="{success: messageType }"></p>
+        </transition>
 
     </div>
 </template>
@@ -24,8 +27,11 @@ export default {
         return {
             findFriendForm: {
                 email: '',
-                message: '',
-            }
+            },
+            //vars for success/fail of form
+            showMessage: false,
+            messageType: false,
+            message: ''
         }
     },
     methods: {
@@ -54,16 +60,15 @@ export default {
          .then( friend => { 
             //if the friend doesnt exist in the system
             if (friend.val() === null) {
-                console.log('Friend not found')
+                this.message = 'Friend not found'
             //if the user tries to add themselves
             } else if (Object.keys(friend.val())[0] === this.currentUser.uid) {
-                console.log('You cant add yourself as a friend')
+                this.message = 'You cant add yourself'
             //if target is already a friend
             } else if (this.isExistingFriend(Object.keys(friend.val())[0])) {
-                console.log('You are already friends!')
+                this.message = 'You are already friends!'
             } else {
             // define our vars from the val() object
-                console.log('Sending request...')
                 let receiverUID = Object.keys(friend.val())[0]
                 let receiverName = friend.val()[receiverUID].name
                 let requestUID = receiverUID + '_' + this.currentUser.uid + '_request'
@@ -75,9 +80,17 @@ export default {
                     recieverName: receiverName,
                     status: 0
                 })
-            console.log('Request sent!')
+            this.messageType = true
+            this.message = 'Request sent!'
           }
-        }).catch( err => console.log('catch going for some reason', err))
+        }).catch( err => this.message = err)
+        //show our message with success/fail
+        this.showMessage = true
+        this.messageType = false
+        this.findFriendForm.email = ''
+        setTimeout(() => {
+                this.showMessage = false
+            }, 2000)
      }
     
   }

@@ -11,7 +11,7 @@ fb.auth.onAuthStateChanged(user => {
       store.dispatch('fetchUserProfile')
       store.dispatch('fetchFriends', user.uid)
       store.dispatch('fetchFriendRequests', user.uid )
-      // REALTIME //keep an eye on database for changes in your name
+      // REALTIME //keep an eye on database for changes in your profile and updates
       const dbObjectRef = fb.db.ref().child(`/users/${user.uid}`)
       dbObjectRef.on('value', snap => store.commit('setUserProfile', snap.val()))
   }
@@ -31,10 +31,10 @@ export const store = new Vuex.Store({
       setUserProfile(state, val) {
       state.userProfile = val
     },
-    setFriendRequests(state, val) {
+      setFriendRequests(state, val) {
       state.friendRequests = val
     },
-    setFriends(state, val) {
+      setFriends(state, val) {
       state.friends = val
     },
   },
@@ -46,7 +46,6 @@ export const store = new Vuex.Store({
       commit('setUserProfile', {})
   },
     // we use 'once' to fetch simple data thats not going to change
-    //ORIGINAL
     fetchUserProfile({ commit, state }) {
       fb.db.ref(`/users/${state.currentUser.uid}`).once('value').then(res => {
           commit('setUserProfile', res.val())
@@ -54,14 +53,6 @@ export const store = new Vuex.Store({
         console.log(err)
       })
     },
-    //ORIGINAL
-
-    //NEW
-    // fetchUserProfile({ commit, state }) {
-    //   const dbObjectRef = fb.db.ref(`/users/${state.currentUser.uid}`)
-    //   dbObjectRef.on('value', snap => commit('setUserProfile', snap.val()))
-    // },
-    //NEW
 
     updateProfile({ state }, data) {
       let name = data.name
