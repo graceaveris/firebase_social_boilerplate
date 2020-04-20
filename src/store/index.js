@@ -20,7 +20,6 @@ fb.auth.onAuthStateChanged(user => {
          amOnline.on('value', function(snapshot) {
             if (snapshot.val()) {
            // User is online.
-           alert('online')
            fb.db.ref(`users/${user.uid}`).update({ isOnline: true })
            fb.db.ref(`users/${user.uid}`).onDisconnect().update({ isOnline: false });
           // User is offline.
@@ -117,14 +116,19 @@ export const store = new Vuex.Store({
               friendObj.name = data[id]['name']
               friendObj.isOnline = data[id].isOnline
               friendObj.email = data[id]['email']
-              friendList.push(friendObj)
+              if (friendObj.isOnline) {
+                friendList.unshift(friendObj)
+              } else {
+                friendList.push(friendObj)
+              }
             }
           })
         })
-          commit('setFriends', friendList)
-        })
+        commit('setFriends', friendList)
+      })
     },
   },
+  
   modules: {
   }
 })

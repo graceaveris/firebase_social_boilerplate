@@ -1,10 +1,10 @@
   
 <template>
 <div>
-    <div>
+    <p>
        {{friend.name}}
-       {{friend.isOnline}}
-    </div>
+      <span v-if="friend.isOnline" >🟢</span>
+    </p>
 </div>
 </template>
 
