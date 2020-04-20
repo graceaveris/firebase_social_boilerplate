@@ -3,6 +3,7 @@
 <div>
     <div>
        {{friend.name}}
+       {{friend.isOnline}}
     </div>
 </div>
 </template>

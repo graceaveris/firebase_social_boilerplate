@@ -15,13 +15,12 @@
 </template>
 
 <script>
-import { currentUser } from '../firebaseConfig'
     const fb = require('../firebaseConfig.js')
-    console.log("in Navigation", currentUser)
     export default {
         methods: {
             logout() {
                 fb.auth.signOut().then(() => {
+                    this.$store.dispatch('goOffline')
                     this.$store.dispatch('clearData')
                     this.$router.push('/login')
                 }).catch(err => {

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Navigation v-if="currentUser" />
+    <Navigation v-if="currentUser"/>
     <router-view/>
   </div>
 </template>
@@ -11,9 +11,10 @@ import Navigation from './components/Navigation'
 export default {
   components: { Navigation },
   computed: {
-    ...mapState(['currentUser'])
+    ...mapState(['currentUser']),
+  },
   }
-}
+
 </script>
 
 <style lang="scss">

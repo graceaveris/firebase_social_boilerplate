@@ -7,8 +7,8 @@
     </div>
 
     <div class="col2 has-p-1">
-        <UserProfile :userProfile="this.userProfile"/>
-        <FriendsList :friends="this.friends"/>
+        <UserProfile :userProfile="this.userProfile" :currentUser="this.currentUser"/>
+        <FriendsList :friends="this.friends" />
         <AddFriend :userProfile="this.userProfile" :currentUser="this.currentUser" :friendRequests="this.friendRequests" />
         <FriendRequests :friendRequests="this.friendRequests"/>
     </div>
@@ -34,7 +34,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['userProfile', 'currentUser', 'friendRequests', 'friends' ])
-    },
+        ...mapState(['userProfile', 'currentUser', 'friendRequests', 'friends'])
+    }
 }
 </script>
