@@ -34,10 +34,12 @@ export default {
     },
     methods: {
         updateProfile() {
-            this.$store.dispatch('updateProfile', {
-                name: this.name !== '' ? this.name : this.userProfile.name,
-                email: this.userProfile.email,
-            })//then we need to  update the new name in all all of your friends
+
+            let name = this.name
+            let email = this.userProfile.email
+            fb.db.ref(`/users/${this.currentUser.uid}`).update({ name, email }).then(user => {
+            console.log('user:', user)
+            }).catch(err => { console.log(err) })
             this.updateFriendProfiles()
             this.name = ''
             this.showSuccess = true

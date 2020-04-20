@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 const fb = require('../firebaseConfig.js')
-
 Vue.use(Vuex)
+
 
 // handle page reload (reoading the page is going to empty our store. This resets the data in this instance!
 fb.auth.onAuthStateChanged(user => {
@@ -15,16 +15,14 @@ fb.auth.onAuthStateChanged(user => {
       // REALTIME //keep an eye on database for changes in your profile and updates
       const dbObjectRef = fb.db.ref().child(`/users/${user.uid}`)
       dbObjectRef.on('value', snap => store.commit('setUserProfile', snap.val()))
-      //managing presence - onlien status
+      // PRESENCE - online status
         var amOnline = fb.db.ref(".info/connected");
          amOnline.on('value', function(snapshot) {
             if (snapshot.val()) {
            // User is online.
            fb.db.ref(`users/${user.uid}`).update({ isOnline: true })
            fb.db.ref(`users/${user.uid}`).onDisconnect().update({ isOnline: false });
-          // User is offline.
-          // WARNING: This won't work!
-          // need to set up onDisconnect
+           // User logging out is handled by logout function
            }
       });
   }
@@ -65,7 +63,7 @@ export const store = new Vuex.Store({
       commit('setCurrentUser', null)
       commit('setUserProfile', {})
   },
-    // we use 'once' to fetch simple data thats not going to change
+    // we use 'once' to fetch simple data thats not going to change - re user profile
     fetchUserProfile({ commit, state }) {
       console.log('store - fetchUserProfile')
       fb.db.ref(`/users/${state.currentUser.uid}`).once('value').then(res => {
@@ -74,18 +72,6 @@ export const store = new Vuex.Store({
         console.log(err)
       })
     },
-
-    updateProfile({ state }, data) {
-      console.log('store - updateProfile')
-      let name = data.name
-      let email = data.email
-      fb.db.ref(`/users/${state.currentUser.uid}`).update({ name, email }).then(user => {
-        console.log('user:', user)
-      }).catch(err => {
-          console.log(err)
-      })
-    },
-
  
     fetchFriendRequests({ commit }, data) {
       // REALTIME // get friend requests where the ID beongs to the current user
