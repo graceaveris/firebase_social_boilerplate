@@ -12,6 +12,7 @@ fb.auth.onAuthStateChanged(user => {
       store.dispatch('fetchUserProfile')
       store.dispatch('fetchFriends', user.uid)
       store.dispatch('fetchFriendRequests', user.uid )
+      store.dispatch('fetchExchangeRequests', user.uid )
       // REALTIME //keep an eye on database for changes in your profile and updates
       const dbObjectRef = fb.db.ref().child(`/users/${user.uid}`)
       dbObjectRef.on('value', snap => store.commit('setUserProfile', snap.val()))
@@ -34,6 +35,7 @@ export const store = new Vuex.Store({
     userProfile: {},
     friendRequests: {},
     friends: {},
+    exchangeRequests: {},
   },
   
   mutations: {
@@ -47,8 +49,10 @@ export const store = new Vuex.Store({
       state.friendRequests = val
     },
       setFriends(state, val) {
-        console.log('inside mutation', val)
       state.friends = val
+    },
+      setExchangeRequests(state, val) {
+      state.exchangeRequests = val
     }
   },
 
@@ -65,7 +69,6 @@ export const store = new Vuex.Store({
   },
     // we use 'once' to fetch simple data thats not going to change - re user profile
     fetchUserProfile({ commit, state }) {
-      console.log('store - fetchUserProfile')
       fb.db.ref(`/users/${state.currentUser.uid}`).once('value').then(res => {
           commit('setUserProfile', res.val())
       }).catch(err => {
@@ -78,6 +81,14 @@ export const store = new Vuex.Store({
       let requestsRef = fb.db.ref('requests');
         requestsRef.orderByChild('recieverUID').equalTo(data).on('value', snap => {
           commit('setFriendRequests', snap.val())
+        })
+    },
+
+    fetchExchangeRequests({ commit }, uid) {
+      let requestsRef = fb.db.ref(`exchanges/${uid}`);
+        requestsRef.on('value', snap => {
+          console.log('fer fired')
+          commit('setExchangeRequests', snap.val())
         })
     },
 

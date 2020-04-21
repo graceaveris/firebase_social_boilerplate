@@ -5,6 +5,8 @@ import firebase from 'firebase'
 import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard/Dashboard'
 import Settings from '@/components/Settings'
+import Exchange from '@/components/Exchange'
+
 
 Vue.use(Router)
 
@@ -35,7 +37,15 @@ const router = new Router({
             meta: {
                 requiresAuth: true
             }
-        }
+        },
+        {
+            path: '/exchange',
+            name: 'Exchange',
+            component: Exchange,
+            meta: {
+                requiresAuth: true
+            }
+        },
     ]
 })
 

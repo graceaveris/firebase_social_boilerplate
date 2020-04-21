@@ -139,7 +139,9 @@
                     
                     fb.db.ref(`users/${credential.user.uid}`).set({
                         name: this.signupForm.name,
-                        email: this.signupForm.email
+                        email: this.signupForm.email,
+                        isOnline: true,
+                        isBusy: false
     
                     }).then(() => {
                         this.$store.dispatch('fetchUserProfile')
